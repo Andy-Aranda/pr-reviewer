@@ -62,45 +62,28 @@ class PRAnalyzer:
             """Create a Notion page with PR analysis."""
             print(f"Creating Notion page: {title}", file=sys.stderr)
             try:
-                # Crear página en una base de datos
-                response = self.notion.pages.create(
-                    parent={"database_id": self.notion_page_id},  # Cambiado a database_id
-                    properties={
-                        "Name": {  # El nombre de la columna título en tu base de datos
-                            "title": [
-                                {
-                                    "text": {
-                                        "content": title
-                                    }
-                                }
-                            ]
+                self.notion.pages.create(
+                    parent={"type": "page_id", "page_id": self.notion_page_id},
+                    properties={"title": {"title": [{"text": {"content": title}}]}},
+                    children=[{
+                        "object": "block",
+                        "type": "paragraph",
+                        "paragraph": {
+                            "rich_text": [{
+                                "type": "text",
+                                "text": {"content": content}
+                            }]
                         }
-                    },
-                    children=[
-                        {
-                            "object": "block",
-                            "type": "paragraph",
-                            "paragraph": {
-                                "rich_text": [
-                                    {
-                                        "type": "text",
-                                        "text": {
-                                            "content": content
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    ]
+                    }]
                 )
                 print(f"Notion page '{title}' created successfully!", file=sys.stderr)
-                return f"Notion page '{title}' created successfully! URL: {response['url']}"
+                return f"Notion page '{title}' created successfully!"
             except Exception as e:
                 error_msg = f"Error creating Notion page: {str(e)}"
                 print(error_msg, file=sys.stderr)
                 traceback.print_exc(file=sys.stderr)
                 return error_msg
-            
+    
     def run(self):
         """Start the MCP server."""
         try:
