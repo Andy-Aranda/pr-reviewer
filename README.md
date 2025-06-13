@@ -3,6 +3,8 @@
 This project automates the analysis of Pull Requests (PRs) using a LLM (Claude) connected via the [MCP (Model Context Protocol)](https://www.datacamp.com/es/tutorial/mcp-model-context-protocol). 
 
 The system receives a PR link, generates a technical summary, and stores it in a Notion page as documentation.
+![image](images/pr-reviewer-lk.gif)
+
 
 ---
 
