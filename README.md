@@ -7,11 +7,14 @@ The system receives a PR link, generates a technical summary, and stores it in a
 ---
 
 ## 🧩 Architecture
+![image](images/pr-reviewer.svg)
 
-```plaintext
-GitHub PR → MCP Server (Python) → Claude Desktop → Analysis → Notion
-```
-
+1.	The user sends a PR URL to Claude Desktop.
+2.	Claude interprets the request and uses its internal MCP Client.
+3.	The MCP Client sends a structured request to the local MCP Server.
+4.	The MCP Server acts as an adapter to fetch PR data from GitHub and save a summary to Notion, using both platforms’ APIs.
+5.	The retrieved and processed information is returned to Claude, who presents it to the user as a technical summary.
+6.	Finally, the information is automatically saved to a Notion page.
 ---
 
 ## ✨ Features
