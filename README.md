@@ -1,57 +1,57 @@
-# 🤖 PR Reviewer Automático con Claude + Notion + GitHub
+# 🤖 PR Reviewer with Claude + Notion + GitHub
 
-Este proyecto automatiza el análisis de Pull Requests (PRs) usando un LLM (Claude Desktop) conectado mediante el protocolo [MCP (Model Context Protocol)](https://www.datacamp.com/es/tutorial/mcp-model-context-protocol). 
+This project automates the analysis of Pull Requests (PRs) using a LLM (Claude) connected via the [MCP (Model Context Protocol)](https://www.datacamp.com/es/tutorial/mcp-model-context-protocol). 
 
-El sistema permite recibir el enlace de un PR, generar un resumen técnico con inteligencia artificial, y guardar automáticamente ese resumen en una página de Notion.
+The system receives a PR link, generates a technical summary, and stores it in a Notion page as documentation.
 
 ---
 
-## 🧩 Arquitectura del Proyecto
+## 🧩 Architecture
 
 ```plaintext
-GitHub PR → MCP Server (Python) → Claude Desktop → Análisis → Notion
+GitHub PR → MCP Server (Python) → Claude Desktop → Analysis → Notion
 ```
 
 ---
 
-## ✨ Características
+## ✨ Features
 
-- Recupera automáticamente los cambios de un PR desde la API de GitHub.
-- Genera un análisis semántico del código utilizando Claude Desktop.
-- Crea una entrada en Notion con el resumen generado.
-- Modular y extensible: puedes añadir más herramientas al servidor MCP.
-
----
-
-## 🚀 ¿Cómo funciona?
-
-1. **Claude Desktop** detecta el servidor MCP al ejecutarse localmente.
-2. El usuario le pasa un enlace de PR a Claude.
-3. Claude llama al servidor MCP y usa:
-   - `fetch_pr` → obtiene metadatos y diffs del PR desde GitHub.
-   - `create_notion_page` → guarda el análisis como una nueva página de Notion.
-4. Todo el proceso se dispara desde la interfaz de Claude Desktop sin intervención manual.
+- Automatically fetches PR changes via GitHub API.
+- Uses Claude Desktop to generate a semantic analysis of the code.
+- Creates a Notion entry with the generated summary.
+- Modular and extensible: you can add more tools to the MCP server.
 
 ---
 
-## 🔧 Requisitos
+## 🚀 How It Works
+
+1. **Claude Desktop** detects the MCP server when it runs locally.
+2. The user sends a PR link to Claude.
+3. Claude calls the MCP server and uses:
+   - `fetch_pr` → fetches PR metadata and diffs from GitHub.
+   - `create_notion_page` → saves the analysis in a new Notion page.
+4. The whole process is triggered from Claude's interface with no manual steps.
+
+---
+
+## 🔧 Requirements
 
 - Python 3.10+
 - [Claude Desktop](https://claude.ai/)
-- Cuenta y API key de:
+- Account / API key from:
   - [GitHub](https://github.com/settings/tokens)
   - [Notion](https://www.notion.so/my-integrations)
 
 ---
 
-## ⚙️ Instalación
+## ⚙️ Setup
 
-1. Instalar `uv` (gestor de entornos Python rápido):
+1. Install `uv` (lightweight Python environment manager):
    ```bash
    curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
 
-2. Inicializar proyecto:
+2. Initialize project:
    ```bash
    uv init pr_reviewer
    cd pr_reviewer
@@ -59,26 +59,26 @@ GitHub PR → MCP Server (Python) → Claude Desktop → Análisis → Notion
    source .venv/bin/activate
    ```
 
-3. Instalar dependencias:
+3. Install dependencies:
    ```bash
    uv add "mcp[cli]" requests python-dotenv notion-client
    ```
 
-4. Crear archivo `.env` con tus claves:
+4. Create `.env` file:
    ```env
    GITHUB_TOKEN=ghp_***************
    NOTION_API_KEY=secret_**************
    NOTION_PAGE_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
    ```
 
-5. Configura Claude Desktop con el archivo `claude_desktop_config.json`, por ejemplo:
+5. Configure Claude Desktop with the `claude_desktop_config.json` file, e.g.:
    ```json
    {
      "mcpServers": {
        "pr-reviewer": {
-         "command": "/ruta/a/python",
-         "args": ["/ruta/a/pr_anayzer.py"],
-         "cwd": "/ruta/a/proyecto"
+         "command": "/path/to/python",
+         "args": ["/path/to/pr_anayzer.py"],
+         "cwd": "/path/to/project"
        }
      }
    }
@@ -86,36 +86,24 @@ GitHub PR → MCP Server (Python) → Claude Desktop → Análisis → Notion
 
 ---
 
-## 🧪 Uso
+## 🧪 Usage
 
-1. Ejecuta el servidor MCP:
+1. Run the MCP server:
    ```bash
    python pr_anayzer.py
    ```
 
-2. Abre Claude Desktop y pasa un link a un PR:
+2. Open Claude Desktop and pass a PR link:
    ```
-   https://github.com/tu_usuario/tu_repo/pull/1
+   https://github.com/your_username/your_repo/pull/1
    ```
 
-3. Claude analizará el PR y te preguntará si quieres guardar el resultado en Notion.
+3. Claude will analyze the PR and ask whether to save the result in Notion.
 
 ---
 
-## 🧠 Créditos e inspiración
+## 📌 Possible Improvements
 
-Basado en el [tutorial oficial de DataCamp sobre MCP](https://www.datacamp.com/es/tutorial/mcp-model-context-protocol).
-
----
-
-## 📌 Posibles mejoras
-
-- Automatización completa con `n8n` o GitHub Actions.
-- Validación de PRs con reglas personalizadas.
-- Integración con otras herramientas como Slack o ClickUp.
-
----
-
-## 🧑‍💻 Autor
-
-Andrea Aranda – [@Andy-Aranda](https://github.com/Andy-Aranda)
+- Full automation using `n8n` or GitHub Actions.
+- PR validation with custom rules.
+- Integration with other tools like Slack or ClickUp.
